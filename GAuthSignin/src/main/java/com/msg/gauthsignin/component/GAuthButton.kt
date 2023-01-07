@@ -49,7 +49,13 @@ fun GAuthButton(
             )
             .border(
                 if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
-                SolidColor(Color.Black),
+                SolidColor(
+                    when (colors) {
+                        Types.Colors.OUTLINE -> Color.Black
+                        Types.Colors.COLORED -> GauthBlue
+                        Types.Colors.WHITE -> Color.White
+                    }
+                ),
                 RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
             ),
         contentPadding = PaddingValues(vertical = 14.dp, horizontal = 40.dp),
