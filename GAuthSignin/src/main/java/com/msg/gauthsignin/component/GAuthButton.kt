@@ -1,5 +1,6 @@
 package com.msg.gauthsignin
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -44,6 +46,11 @@ fun GAuthButton(
                         Types.Style.ROUNDED -> 26.dp
                     }
                 )
+            )
+            .border(
+                if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
+                SolidColor(Color.Black),
+                RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
             ),
         contentPadding = PaddingValues(vertical = 14.dp, horizontal = 40.dp),
         colors = ButtonDefaults.buttonColors(
@@ -56,8 +63,7 @@ fun GAuthButton(
                 Types.Colors.COLORED -> Color.White
                 Types.Colors.OUTLINE -> Color.Black
             }
-        )
-
+        ),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -10,7 +10,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            GAuthButton(Types.Style.ROUNDED, Types.ActionType.SIGNIN, Types.Colors.OUTLINE){}
+            GAuthButton(Types.Style.ROUNDED, Types.ActionType.CONTINUE, Types.Colors.OUTLINE){}
         }
     }
 }
