@@ -15,6 +15,9 @@ fun GAuthSigninWebView() {
     val code = remember {
         mutableStateOf("")
     }
+    val isLoginSuccess = remember {
+        mutableStateOf(false)
+    }
 
     AndroidView(factory = {
         WebView(it).apply {
@@ -23,17 +26,23 @@ fun GAuthSigninWebView() {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             settings.javaScriptEnabled = true
+            settings.domStorageEnabled = true
             webViewClient = object : WebViewClient() {
                 @Deprecated("Deprecated in Java")
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     if (url.contains("code=")) {
                         code.value = url.substringAfter("code=")
+                        isLoginSuccess.value = true
+                        this@apply.destroy()
                         return true
                     }
                     return false
                 }
             }
-            loadUrl("https://gauth-frontend.vercel.app/login")
+            loadUrl("https://gauth.co.kr/login?client_id=sfaxdcsaftdcxsatrdc&redirect_uri=https://www.google.com")
         }
     })
+    if (isLoginSuccess.value) {
+        GAuth().getGAuthTokenInfo(code = code.value)
+    }
 }
