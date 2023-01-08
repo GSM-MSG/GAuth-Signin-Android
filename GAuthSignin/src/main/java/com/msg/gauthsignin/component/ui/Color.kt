@@ -1,4 +1,4 @@
-package com.msg.gauthsignin.ui
+package com.msg.gauthsignin.component.ui
 
 import androidx.compose.ui.graphics.Color
 

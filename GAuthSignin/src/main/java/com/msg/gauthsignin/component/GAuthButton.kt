@@ -21,8 +21,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.msg.gauthsignin.ui.GauthBlue
-import com.msg.gauthsignin.utils.Types
+import com.msg.gauthsignin.component.ui.GauthBlue
+import com.msg.gauthsignin.component.utils.Types
 
 @Composable
 fun GAuthButton(

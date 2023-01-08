@@ -1,4 +1,4 @@
-package com.msg.gauthsignin.utils
+package com.msg.gauthsignin.component.utils
 
 object Types {
     enum class ActionType {
