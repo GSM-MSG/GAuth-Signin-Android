@@ -43,11 +43,6 @@ fun GAuthSigninWebView(clientId: String, redirectUri: String) {
         }
     })
     if (isLoginSuccess.value) {
-        GAuth.getGAuthTokenRequest(
-            code = code.value,
-            clientId = clientId,
-            redirectUri = redirectUri,
-            clientSecret = "d4e5963dc9984f058ea868c915690442f6b1ccabd22041b3878284ac2f916901"
-        )
+        GAuth.setCodeValue(code.value)
     }
 }
