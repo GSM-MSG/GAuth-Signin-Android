@@ -11,7 +11,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun GAuthSigninWebView() {
+fun GAuthSigninWebView(clientId: String, redirectUri: String) {
     val code = remember {
         mutableStateOf("")
     }
@@ -39,10 +39,15 @@ fun GAuthSigninWebView() {
                     return false
                 }
             }
-            loadUrl("https://gauth.co.kr/login?client_id=sfaxdcsaftdcxsatrdc&redirect_uri=https://www.google.com")
+            loadUrl("https://gauth.co.kr/login?client_id=$clientId&redirect_uri=$redirectUri")
         }
     })
     if (isLoginSuccess.value) {
-        GAuth().getGAuthTokenInfo(code = code.value)
+        GAuth().getGAuthTokenRequest(
+            code = code.value,
+            clientId = clientId,
+            redirectUri = redirectUri,
+            clientSecret = "d4e5963dc9984f058ea868c915690442f6b1ccabd22041b3878284ac2f916901"
+        )
     }
 }

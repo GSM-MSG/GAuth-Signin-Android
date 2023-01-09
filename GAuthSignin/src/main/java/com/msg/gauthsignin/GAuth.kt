@@ -9,21 +9,46 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class GAuth {
-    fun getGAuthTokenInfo(code: String) {
-        val getTokenInfoRequest = GAuthNetworkBuilder.tokenApi.getGAuthToken(
+    fun getGAuthTokenRequest(
+        code: String,
+        clientId: String,
+        clientSecret: String,
+        redirectUri: String
+    ) {
+        val getGAuthTokenInfoReques = GAuthNetworkBuilder.tokenApi.getGAuthToken(
             ServiceInfoDTO(
                 code = code,
-                clientId = "00ce71cc5f774d4191db789d4e6aea40260080b4498947de98f3c7bd7d5ec78d",
-                clientSecret = "d4e5963dc9984f058ea868c915690442f6b1ccabd22041b3878284ac2f916901",
-                redirectUri = "https://www.google.com"
+                clientId = clientId,
+                clientSecret = clientSecret,
+                redirectUri = redirectUri
             )
         )
-        getTokenInfoRequest.enqueue(object : Callback<TokenInfoDTO> {
+        getGAuthTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
+            override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
+                if (response.isSuccessful) {
+                    Log.d("GetGAuthToken", response.body().toString())
+                    tokenRefreshRequest("Bearer " + response.body()!!.refreshToken)
+                } else {
+                    Log.d("GetGAuthToken", response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<TokenInfoDTO>, t: Throwable) {
+                Log.e("GetGAuthToken", t.toString())
+            }
+        })
+    }
+
+    fun tokenRefreshRequest(
+        refreshToken: String
+    ) {
+        val getTokenInfoReques = GAuthNetworkBuilder.tokenApi.tokenRefresh(refreshToken)
+        getTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
             override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
                 if (response.isSuccessful) {
                     Log.d("GetToken", response.body().toString())
                 } else {
-                    Log.d("GetToken", response.code().toString())
+                    Log.d("GetToken", response.toString())
                 }
             }
 
