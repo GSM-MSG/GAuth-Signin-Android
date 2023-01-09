@@ -8,7 +8,7 @@ import retrofit2.http.Header
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 
-interface GAuthAPI {
+interface GAuthTokenAPI {
     @POST("token")
     fun getGAuthToken(
         @Body body: ServiceInfoDTO
