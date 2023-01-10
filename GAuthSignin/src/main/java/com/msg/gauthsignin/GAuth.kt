@@ -57,7 +57,7 @@ object GAuth {
     fun tokenRefreshRequest(
         refreshToken: String
     ) {
-        val getTokenInfoReques = GAuthNetworkBuilder.tokenApi.tokenRefresh(refreshToken)
+        val getTokenInfoReques = GAuthNetworkBuilder.tokenApi.tokenRefresh("Bearer $refreshToken")
         getTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
             override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
                 _tokenRefreshResponse.value = response.body()
@@ -72,7 +72,7 @@ object GAuth {
     fun getUserInfoRequest(
         accessToken: String
     ) {
-        val getUserInfoRequest = GAuthNetworkBuilder.userApi.getUserInfo(accessToken)
+        val getUserInfoRequest = GAuthNetworkBuilder.userApi.getUserInfo("Bearer $accessToken")
         getUserInfoRequest.enqueue(object : Callback<UserInfoDTO> {
             override fun onResponse(call: Call<UserInfoDTO>, response: Response<UserInfoDTO>) {
                 _getUserInfoResponse.value = response.body()
