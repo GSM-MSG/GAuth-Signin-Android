@@ -3,6 +3,8 @@ package com.msg.gauthsignin
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.msg.gauthsignin.dto.GetTokenResponse
+import com.msg.gauthsignin.dto.GetUserInfoResponse
 import com.msg.gauthsignin.dto.request.ServiceInfoDTO
 import com.msg.gauthsignin.dto.response.TokenInfoDTO
 import com.msg.gauthsignin.dto.response.UserInfoDTO
@@ -13,14 +15,14 @@ import retrofit2.Response
 
 object GAuth {
 
-    private val _getGAuthTokenResponse = MutableLiveData<TokenInfoDTO>()
-    val getGAuthTokenResponse: LiveData<TokenInfoDTO> get() = _getGAuthTokenResponse
+    private val _getGAuthTokenResponse = MutableLiveData<GetTokenResponse>()
+    val getGAuthTokenResponse: LiveData<GetTokenResponse> get() = _getGAuthTokenResponse
 
-    private val _tokenRefreshResponse = MutableLiveData<TokenInfoDTO>()
-    val tokenRefreshResponse: LiveData<TokenInfoDTO> get() = _tokenRefreshResponse
+    private val _tokenRefreshResponse = MutableLiveData<GetTokenResponse>()
+    val tokenRefreshResponse: LiveData<GetTokenResponse> get() = _tokenRefreshResponse
 
-    private val _getUserInfoResponse = MutableLiveData<UserInfoDTO>()
-    val getUserInfoResponse: LiveData<UserInfoDTO> get() = _getUserInfoResponse
+    private val _getUserInfoResponse = MutableLiveData<GetUserInfoResponse>()
+    val getUserInfoResponse: LiveData<GetUserInfoResponse> get() = _getUserInfoResponse
 
     private val _code = MutableLiveData<String>()
     val code: LiveData<String> get() = _code
@@ -45,7 +47,11 @@ object GAuth {
         )
         getGAuthTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
             override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
-                _getGAuthTokenResponse.value = response.body()
+                _getGAuthTokenResponse.value = GetTokenResponse(
+                    accessToken = response.body()?.accessToken,
+                    refreshToken = response.body()?.refreshToken,
+                    status = response.code()
+                )
             }
 
             override fun onFailure(call: Call<TokenInfoDTO>, t: Throwable) {
@@ -60,7 +66,11 @@ object GAuth {
         val getTokenInfoReques = GAuthNetworkBuilder.tokenApi.tokenRefresh("Bearer $refreshToken")
         getTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
             override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
-                _tokenRefreshResponse.value = response.body()
+                _tokenRefreshResponse.value = GetTokenResponse(
+                    accessToken = response.body()?.accessToken,
+                    refreshToken = response.body()?.refreshToken,
+                    status = response.code()
+                )
             }
 
             override fun onFailure(call: Call<TokenInfoDTO>, t: Throwable) {
@@ -75,7 +85,17 @@ object GAuth {
         val getUserInfoRequest = GAuthNetworkBuilder.userApi.getUserInfo("Bearer $accessToken")
         getUserInfoRequest.enqueue(object : Callback<UserInfoDTO> {
             override fun onResponse(call: Call<UserInfoDTO>, response: Response<UserInfoDTO>) {
-                _getUserInfoResponse.value = response.body()
+                _getUserInfoResponse.value = GetUserInfoResponse(
+                    email = response.body()?.email,
+                    name = response.body()?.name,
+                    grade = response.body()?.grade,
+                    classNum = response.body()?.grade,
+                    num = response.body()?.num,
+                    gender = response.body()?.gender,
+                    profileUrl = response.body()?.profileUrl,
+                    role = response.body()?.role,
+                    status = response.code()
+                )
             }
 
             override fun onFailure(call: Call<UserInfoDTO>, t: Throwable) {
