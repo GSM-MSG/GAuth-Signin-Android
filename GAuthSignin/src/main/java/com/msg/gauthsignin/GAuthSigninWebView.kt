@@ -11,7 +11,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun GAuthSigninWebView(clientId: String, redirectUri: String) {
+fun GAuthSigninWebView(clientId: String, redirectUri: String, callBack: (String) -> Unit) {
     val code = remember {
         mutableStateOf("")
     }
@@ -33,7 +33,6 @@ fun GAuthSigninWebView(clientId: String, redirectUri: String) {
                     if (url.contains("code=")) {
                         code.value = url.substringAfter("code=")
                         isLoginSuccess.value = true
-                        this@apply.destroy()
                         return true
                     }
                     return false
@@ -43,6 +42,6 @@ fun GAuthSigninWebView(clientId: String, redirectUri: String) {
         }
     })
     if (isLoginSuccess.value) {
-        GAuth.setCodeValue(code.value)
+        callBack(code.value)
     }
 }
