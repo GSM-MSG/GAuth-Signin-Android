@@ -1,4 +1,4 @@
-package com.msg.gauthsignin.dto
+package com.msg.gauthsignin.dto.response
 
 data class GetUserInfoResponse(
     val email: String?,

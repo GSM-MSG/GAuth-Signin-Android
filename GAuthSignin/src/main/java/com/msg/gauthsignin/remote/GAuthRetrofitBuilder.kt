@@ -4,11 +4,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object GAuthNetworkBuilder {
-    const val GET_TOKEN_BASE_URL = "https://server.gauth.co.kr/oauth/"
+    const val BASE_URL = "https://server.gauth.co.kr/oauth/"
     const val GET_USET_INFO_BASE_URL = "https://open.gauth.co.kr/"
 
-    private val tokenAPI = Retrofit.Builder()
-        .baseUrl(GET_TOKEN_BASE_URL)
+    private val gAuthAPI = Retrofit.Builder()
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
@@ -17,8 +17,8 @@ object GAuthNetworkBuilder {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val _tokenApi = tokenAPI.create(GAuthTokenAPI::class.java)
-    val tokenApi get() = _tokenApi
+    private val _gAuthApi = gAuthAPI.create(GAuthAPI::class.java)
+    val gAuthApi get() = _gAuthApi
 
     private val _userApi = userAPI.create(GAuthUserAPI::class.java)
     val userApi get() = _userApi

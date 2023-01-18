@@ -1,11 +1,9 @@
 package com.msg.gauthsignin
 
 import android.util.Log
-import com.msg.gauthsignin.dto.GetTokenResponse
-import com.msg.gauthsignin.dto.GetUserInfoResponse
+import com.msg.gauthsignin.dto.request.AccountInfoDTO
 import com.msg.gauthsignin.dto.request.ServiceInfoDTO
-import com.msg.gauthsignin.dto.response.TokenInfoDTO
-import com.msg.gauthsignin.dto.response.UserInfoDTO
+import com.msg.gauthsignin.dto.response.*
 import com.msg.gauthsignin.remote.GAuthNetworkBuilder
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,7 +17,7 @@ object GAuth {
         redirectUri: String,
         callBack: (GetTokenResponse) -> Unit
     ) {
-        val getGAuthTokenInfoReques = GAuthNetworkBuilder.tokenApi.getGAuthToken(
+        val getGAuthTokenInfoReques = GAuthNetworkBuilder.gAuthApi.getGAuthToken(
             ServiceInfoDTO(
                 code = code,
                 clientId = clientId,
@@ -48,7 +46,7 @@ object GAuth {
         refreshToken: String,
         callBack: (GetTokenResponse) -> Unit
     ) {
-        val getTokenInfoReques = GAuthNetworkBuilder.tokenApi.tokenRefresh("Bearer $refreshToken")
+        val getTokenInfoReques = GAuthNetworkBuilder.gAuthApi.tokenRefresh("Bearer $refreshToken")
         getTokenInfoReques.enqueue(object : Callback<TokenInfoDTO> {
             override fun onResponse(call: Call<TokenInfoDTO>, response: Response<TokenInfoDTO>) {
                 callBack(
@@ -82,14 +80,36 @@ object GAuth {
                         num = response.body()?.num,
                         gender = response.body()?.gender,
                         profileUrl = response.body()?.profileUrl,
-                        role = response.body()?.role,
-                        status = response.code()
+                        role = response.body()?.role, status = response.code()
                     )
                 )
             }
 
             override fun onFailure(call: Call<UserInfoDTO>, t: Throwable) {
                 Log.d("UserInfo", t.toString())
+            }
+        })
+    }
+
+    fun getCodeInfoRequest(
+        email: String, password: String, callBack: (GetCodeResponse) -> Unit
+    ) {
+        val getCodeInfoRequest = GAuthNetworkBuilder.gAuthApi.getCode(
+            AccountInfoDTO(
+                email = email, password = password
+            )
+        )
+        getCodeInfoRequest.enqueue(object : Callback<CodeInfoDTO> {
+            override fun onResponse(call: Call<CodeInfoDTO>, response: Response<CodeInfoDTO>) {
+                callBack(
+                    GetCodeResponse(
+                        response.body()?.code, response.code()
+                    )
+                )
+            }
+
+            override fun onFailure(call: Call<CodeInfoDTO>, t: Throwable) {
+
             }
         })
     }
