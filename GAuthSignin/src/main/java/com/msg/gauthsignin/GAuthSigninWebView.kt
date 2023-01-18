@@ -5,20 +5,11 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.viewinterop.AndroidView
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun GAuthSigninWebView(clientId: String, redirectUri: String, callBack: (String) -> Unit) {
-    val code = remember {
-        mutableStateOf("")
-    }
-    val isLoginSuccess = remember {
-        mutableStateOf(false)
-    }
-
     AndroidView(factory = {
         WebView(it).apply {
             layoutParams = ViewGroup.LayoutParams(
@@ -31,8 +22,7 @@ fun GAuthSigninWebView(clientId: String, redirectUri: String, callBack: (String)
                 @Deprecated("Deprecated in Java")
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     if (url.contains("code=")) {
-                        code.value = url.substringAfter("code=")
-                        isLoginSuccess.value = true
+                        callBack(url.substringAfter("code="))
                         return true
                     }
                     return false
@@ -41,7 +31,4 @@ fun GAuthSigninWebView(clientId: String, redirectUri: String, callBack: (String)
             loadUrl("https://gauth.co.kr/login?client_id=$clientId&redirect_uri=$redirectUri")
         }
     })
-    if (isLoginSuccess.value) {
-        callBack(code.value)
-    }
 }
