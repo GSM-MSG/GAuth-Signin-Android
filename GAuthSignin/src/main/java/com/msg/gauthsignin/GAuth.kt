@@ -1,6 +1,5 @@
 package com.msg.gauthsignin
 
-import android.util.Log
 import com.msg.gauthsignin.dto.request.AccountInfoDTO
 import com.msg.gauthsignin.dto.request.ServiceInfoDTO
 import com.msg.gauthsignin.dto.response.*
@@ -37,7 +36,7 @@ object GAuth {
             }
 
             override fun onFailure(call: Call<TokenInfoDTO>, t: Throwable) {
-                Log.e("GetGAuthToken", t.toString())
+                throw t
             }
         })
     }
@@ -59,7 +58,7 @@ object GAuth {
             }
 
             override fun onFailure(call: Call<TokenInfoDTO>, t: Throwable) {
-                Log.e("GetToken", t.toString())
+                throw t
             }
         })
     }
@@ -86,7 +85,7 @@ object GAuth {
             }
 
             override fun onFailure(call: Call<UserInfoDTO>, t: Throwable) {
-                Log.d("UserInfo", t.toString())
+                throw t
             }
         })
     }
@@ -109,7 +108,7 @@ object GAuth {
             }
 
             override fun onFailure(call: Call<CodeInfoDTO>, t: Throwable) {
-
+                throw t
             }
         })
     }
