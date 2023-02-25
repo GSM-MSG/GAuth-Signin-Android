@@ -3,7 +3,9 @@ package com.msg.gauthsignin
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.http.SslError
 import android.view.ViewGroup
+import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
@@ -35,6 +37,16 @@ fun GAuthSigninWebView(
                         return true
                     }
                     return false
+                }
+
+                @SuppressLint("WebViewClientOnReceivedSslError")
+                override fun onReceivedSslError(
+                    view: WebView?,
+                    handler: SslErrorHandler?,
+                    error: SslError?
+                ) {
+                    super.onReceivedSslError(view, handler, error)
+                    handler!!.proceed()
                 }
             }
             loadUrl("https://gauth.co.kr/login?client_id=$clientId&redirect_uri=$redirectUri")
