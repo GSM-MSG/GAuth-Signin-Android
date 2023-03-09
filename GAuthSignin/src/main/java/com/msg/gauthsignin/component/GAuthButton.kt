@@ -1,4 +1,4 @@
-package com.msg.gauthsignin
+package com.msg.gauthsignin.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,6 +21,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.msg.gauthsignin.R
 import com.msg.gauthsignin.component.ui.GauthBlue
 import com.msg.gauthsignin.component.utils.Types
 
@@ -51,7 +52,7 @@ fun GAuthButton(
                 if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
                 SolidColor(
                     when (colors) {
-                        Types.Colors.OUTLINE -> Color.Black
+                        Types.Colors.OUTLINE -> GauthBlue
                         Types.Colors.COLORED -> GauthBlue
                         Types.Colors.WHITE -> Color.White
                     }
@@ -67,7 +68,7 @@ fun GAuthButton(
             contentColor = when (colors) {
                 Types.Colors.WHITE -> GauthBlue
                 Types.Colors.COLORED -> Color.White
-                Types.Colors.OUTLINE -> Color.Black
+                Types.Colors.OUTLINE -> GauthBlue
             }
         ),
     ) {

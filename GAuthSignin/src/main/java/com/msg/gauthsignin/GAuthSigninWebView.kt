@@ -16,7 +16,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun GAuthSigninWebView(
     clientId: String,
     redirectUri: String,
-    context: Context,
     callBack: (String) -> Unit
 ) {
     AndroidView(factory = {
@@ -32,8 +31,6 @@ fun GAuthSigninWebView(
                 override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                     if (url.contains("code=")) {
                         callBack(url.substringAfter("code="))
-                        context.startActivity(Intent(context, context::class.java))
-                        it.stopService(Intent(it, it::class.java))
                         return true
                     }
                     return false
