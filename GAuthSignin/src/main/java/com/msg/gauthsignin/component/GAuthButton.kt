@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.msg.gauthsignin.R
@@ -30,6 +31,7 @@ fun GAuthButton(
     style: Types.Style,
     actionType: Types.ActionType,
     colors: Types.Colors,
+    horizontalPaddingValue: Dp,
     onClick: () -> Unit
 ) {
     val pretendard = FontFamily(
@@ -59,7 +61,7 @@ fun GAuthButton(
                 ),
                 RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
             ),
-        contentPadding = PaddingValues(vertical = 14.dp, horizontal = 40.dp),
+        contentPadding = PaddingValues(vertical = 14.dp, horizontal = horizontalPaddingValue),
         colors = ButtonDefaults.buttonColors(
             backgroundColor = when (colors) {
                 Types.Colors.COLORED -> GauthBlue
