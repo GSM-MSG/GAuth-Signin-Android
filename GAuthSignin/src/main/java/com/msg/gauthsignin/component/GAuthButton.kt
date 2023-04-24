@@ -32,7 +32,7 @@ fun GAuthButton(
     actionType: Types.ActionType,
     colors: Types.Colors,
     horizontalPaddingValue: Dp? = null,
-    horizontalFloat: Float? = null,
+    horizontalPercent: Float? = null,
     horizontalMargin: Dp? = null,
     onClick: () -> Unit
 ) {
@@ -49,7 +49,7 @@ fun GAuthButton(
             onClick = onClick,
             modifier = Modifier
                 .wrapContentSize()
-                .fillMaxWidth(horizontalFloat ?: 0.9f)
+                .fillMaxWidth(horizontalPercent ?: 0.9f)
                 .clip(
                     RoundedCornerShape(
                         when (style) {
