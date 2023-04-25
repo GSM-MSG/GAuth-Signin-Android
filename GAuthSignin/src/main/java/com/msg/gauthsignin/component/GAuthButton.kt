@@ -1,5 +1,6 @@
 package com.msg.gauthsignin.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,12 +8,14 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -22,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.toSize
 import com.msg.gauthsignin.R
 import com.msg.gauthsignin.component.ui.GauthBlue
 import com.msg.gauthsignin.component.utils.Types
@@ -39,17 +43,38 @@ fun GAuthButton(
     val pretendard = FontFamily(
         Font(R.font.pretendardsemibold, FontWeight.SemiBold, FontStyle.Normal)
     )
-    Box(
-        modifier = Modifier
+
+    var parentSize by remember {
+        mutableStateOf(Size.Zero)
+    }
+
+    val modifier = when {
+        horizontalMargin != null && horizontalPercent == null -> Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(vertical = horizontalMargin ?: 0.dp),
+
+        horizontalMargin == null && horizontalPercent != null -> Modifier
+            .fillMaxWidth(horizontalPercent)
+            .wrapContentHeight()
+
+        else -> Modifier
+            .fillMaxWidth(0.9f)
+            .wrapContentHeight()
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalMargin ?: 0.dp)
+            .onGloballyPositioned {
+                parentSize = it.parentLayoutCoordinates?.size?.toSize() ?: Size.Zero
+            }
+            .background(Color.Blue),
+        horizontalArrangement = Arrangement.Center
     ) {
         Button(
             onClick = onClick,
-            modifier = Modifier
-                .wrapContentSize()
-                .fillMaxWidth(horizontalPercent ?: 0.9f)
+            modifier = modifier
                 .clip(
                     RoundedCornerShape(
                         when (style) {
@@ -69,7 +94,7 @@ fun GAuthButton(
                     ),
                     RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
                 )
-                .align(Alignment.Center),
+                .background(Color.Red),
             contentPadding = PaddingValues(
                 vertical = 14.dp,
                 horizontal = horizontalPaddingValue ?: 0.dp
