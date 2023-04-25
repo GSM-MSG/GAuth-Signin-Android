@@ -44,10 +44,6 @@ fun GAuthButton(
         Font(R.font.pretendardsemibold, FontWeight.SemiBold, FontStyle.Normal)
     )
 
-    var parentSize by remember {
-        mutableStateOf(Size.Zero)
-    }
-
     val modifier = when {
         horizontalMargin != null && horizontalPercent == null && horizontalPaddingValue == null -> Modifier
             .fillMaxWidth()
@@ -65,10 +61,7 @@ fun GAuthButton(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = horizontalMargin ?: 0.dp)
-            .onGloballyPositioned {
-                parentSize = it.parentLayoutCoordinates?.size?.toSize() ?: Size.Zero
-            },
+            .padding(horizontal = horizontalMargin ?: 0.dp),
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
