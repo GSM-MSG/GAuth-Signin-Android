@@ -1,6 +1,5 @@
 package com.msg.gauthsignin.component
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -8,14 +7,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -25,9 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import com.msg.gauthsignin.R
-import com.msg.gauthsignin.component.ui.GauthBlue
+import com.msg.gauthsignin.component.ui.GAuthBlue
 import com.msg.gauthsignin.component.utils.Types
 
 @Composable
@@ -79,8 +75,8 @@ fun GAuthButton(
                     if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
                     SolidColor(
                         when (colors) {
-                            Types.Colors.OUTLINE -> GauthBlue
-                            Types.Colors.COLORED -> GauthBlue
+                            Types.Colors.OUTLINE -> GAuthBlue
+                            Types.Colors.COLORED -> GAuthBlue
                             Types.Colors.WHITE -> Color.White
                         }
                     ),
@@ -92,13 +88,13 @@ fun GAuthButton(
             ),
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = when (colors) {
-                    Types.Colors.COLORED -> GauthBlue
+                    Types.Colors.COLORED -> GAuthBlue
                     else -> Color.White
                 },
                 contentColor = when (colors) {
-                    Types.Colors.WHITE -> GauthBlue
+                    Types.Colors.WHITE -> GAuthBlue
                     Types.Colors.COLORED -> Color.White
-                    Types.Colors.OUTLINE -> GauthBlue
+                    Types.Colors.OUTLINE -> GAuthBlue
                 }
             ),
         ) {
