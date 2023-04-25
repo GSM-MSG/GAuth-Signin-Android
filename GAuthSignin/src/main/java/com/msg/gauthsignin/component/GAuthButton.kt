@@ -32,9 +32,9 @@ import com.msg.gauthsignin.component.utils.Types
 
 @Composable
 fun GAuthButton(
-    style: Types.Style,
-    actionType: Types.ActionType,
-    colors: Types.Colors,
+    style: Types.Style = Types.Style.DEFAULT,
+    actionType: Types.ActionType = Types.ActionType.SIGNIN,
+    colors: Types.Colors = Types.Colors.WHITE,
     horizontalPaddingValue: Dp? = null,
     horizontalPercent: Float? = null,
     horizontalMargin: Dp? = null,
@@ -49,17 +49,17 @@ fun GAuthButton(
     }
 
     val modifier = when {
-        horizontalMargin != null && horizontalPercent == null -> Modifier
+        horizontalMargin != null && horizontalPercent == null && horizontalPaddingValue == null -> Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
 
-        horizontalMargin == null && horizontalPercent != null -> Modifier
+        horizontalMargin == null && horizontalPercent != null && horizontalPaddingValue == null -> Modifier
             .fillMaxWidth(horizontalPercent)
-            .wrapContentHeight()
+
+        horizontalMargin == null && horizontalPercent == null && horizontalPaddingValue != null -> Modifier
+            .wrapContentSize()
 
         else -> Modifier
             .fillMaxWidth(0.9f)
-            .wrapContentHeight()
     }
 
     Row(
@@ -68,8 +68,7 @@ fun GAuthButton(
             .padding(horizontal = horizontalMargin ?: 0.dp)
             .onGloballyPositioned {
                 parentSize = it.parentLayoutCoordinates?.size?.toSize() ?: Size.Zero
-            }
-            .background(Color.Blue),
+            },
         horizontalArrangement = Arrangement.Center
     ) {
         Button(
@@ -93,8 +92,7 @@ fun GAuthButton(
                         }
                     ),
                     RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
-                )
-                .background(Color.Red),
+                ),
             contentPadding = PaddingValues(
                 vertical = 14.dp,
                 horizontal = horizontalPaddingValue ?: 0.dp
