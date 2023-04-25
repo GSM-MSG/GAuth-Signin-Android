@@ -23,82 +23,107 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.msg.gauthsignin.R
-import com.msg.gauthsignin.component.ui.GauthBlue
+import com.msg.gauthsignin.component.ui.GAuthBlue
 import com.msg.gauthsignin.component.utils.Types
 
 @Composable
 fun GAuthButton(
-    style: Types.Style,
-    actionType: Types.ActionType,
-    colors: Types.Colors,
-    horizontalPaddingValue: Dp,
+    style: Types.Style = Types.Style.DEFAULT,
+    actionType: Types.ActionType = Types.ActionType.SIGNIN,
+    colors: Types.Colors = Types.Colors.WHITE,
+    horizontalPaddingValue: Dp? = null,
+    horizontalPercent: Float? = null,
+    horizontalMargin: Dp? = null,
     onClick: () -> Unit
 ) {
     val pretendard = FontFamily(
         Font(R.font.pretendardsemibold, FontWeight.SemiBold, FontStyle.Normal)
     )
 
-    Button(
-        onClick = onClick,
-        modifier = Modifier
+    val modifier = when {
+        horizontalMargin != null && horizontalPercent == null && horizontalPaddingValue == null -> Modifier
+            .fillMaxWidth()
+
+        horizontalMargin == null && horizontalPercent != null && horizontalPaddingValue == null -> Modifier
+            .fillMaxWidth(horizontalPercent)
+
+        horizontalMargin == null && horizontalPercent == null && horizontalPaddingValue != null -> Modifier
             .wrapContentSize()
-            .clip(
-                RoundedCornerShape(
-                    when (style) {
-                        Types.Style.DEFAULT -> 6.dp
-                        Types.Style.ROUNDED -> 26.dp
-                    }
-                )
-            )
-            .border(
-                if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
-                SolidColor(
-                    when (colors) {
-                        Types.Colors.OUTLINE -> GauthBlue
-                        Types.Colors.COLORED -> GauthBlue
-                        Types.Colors.WHITE -> Color.White
-                    }
-                ),
-                RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
-            ),
-        contentPadding = PaddingValues(vertical = 14.dp, horizontal = horizontalPaddingValue),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = when (colors) {
-                Types.Colors.COLORED -> GauthBlue
-                else -> Color.White
-            },
-            contentColor = when (colors) {
-                Types.Colors.WHITE -> GauthBlue
-                Types.Colors.COLORED -> Color.White
-                Types.Colors.OUTLINE -> GauthBlue
-            }
-        ),
+
+        else -> Modifier
+            .fillMaxWidth(0.9f)
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = horizontalMargin ?: 0.dp),
+        horizontalArrangement = Arrangement.Center
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.gauth_white_ic),
-                contentDescription = "GAuthButtonIcon",
-                modifier = Modifier
-                    .width(30.dp)
-                    .height(30.dp)
-            )
-            Text(
-                text = "${
-                    when (actionType) {
-                        Types.ActionType.SIGNIN -> "Sign in"
-                        Types.ActionType.SIGNUP -> "Sign up"
-                        Types.ActionType.CONTINUE -> "Continue"
-                    }
-                } with GAuth", style = TextStyle(
-                    fontFamily = pretendard,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 17.sp
+        Button(
+            onClick = onClick,
+            modifier = modifier
+                .clip(
+                    RoundedCornerShape(
+                        when (style) {
+                            Types.Style.DEFAULT -> 6.dp
+                            Types.Style.ROUNDED -> 26.dp
+                        }
+                    )
                 )
-            )
-            Spacer(modifier = Modifier.size(10.dp))
+                .border(
+                    if (colors == Types.Colors.OUTLINE) 1.dp else 0.dp,
+                    SolidColor(
+                        when (colors) {
+                            Types.Colors.OUTLINE -> GAuthBlue
+                            Types.Colors.COLORED -> GAuthBlue
+                            Types.Colors.WHITE -> Color.White
+                        }
+                    ),
+                    RoundedCornerShape(if (style == Types.Style.DEFAULT) 6.dp else 26.dp)
+                ),
+            contentPadding = PaddingValues(
+                vertical = 14.dp,
+                horizontal = horizontalPaddingValue ?: 0.dp
+            ),
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = when (colors) {
+                    Types.Colors.COLORED -> GAuthBlue
+                    else -> Color.White
+                },
+                contentColor = when (colors) {
+                    Types.Colors.WHITE -> GAuthBlue
+                    Types.Colors.COLORED -> Color.White
+                    Types.Colors.OUTLINE -> GAuthBlue
+                }
+            ),
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.gauth_white_ic),
+                    contentDescription = "GAuthButtonIcon",
+                    modifier = Modifier
+                        .width(30.dp)
+                        .height(30.dp)
+                )
+                Text(
+                    text = "${
+                        when (actionType) {
+                            Types.ActionType.SIGNIN -> "Sign in"
+                            Types.ActionType.SIGNUP -> "Sign up"
+                            Types.ActionType.CONTINUE -> "Continue"
+                        }
+                    } with GAuth", style = TextStyle(
+                        fontFamily = pretendard,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 17.sp
+                    )
+                )
+                Spacer(modifier = Modifier.size(10.dp))
+            }
         }
     }
 }
