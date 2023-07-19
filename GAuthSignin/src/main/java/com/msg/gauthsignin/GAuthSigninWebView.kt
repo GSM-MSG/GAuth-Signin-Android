@@ -1,13 +1,12 @@
 package com.msg.gauthsignin
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.net.http.SslError
 import android.view.ViewGroup
 import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
 
@@ -16,8 +15,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun GAuthSigninWebView(
     clientId: String,
     redirectUri: String,
-    callBack: (String) -> Unit
+    callBack: (String) -> Unit,
+    onBackPressed: () -> Unit = {}
 ) {
+    BackHandler(onBack = onBackPressed)
+
     AndroidView(factory = {
         WebView(it).apply {
             layoutParams = ViewGroup.LayoutParams(
