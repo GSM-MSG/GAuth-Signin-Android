@@ -15,10 +15,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 fun GAuthSigninWebView(
     clientId: String,
     redirectUri: String,
+    onBackPressed: (() -> Unit)? = null,
     callBack: (String) -> Unit,
-    onBackPressed: () -> Unit = {}
 ) {
-    BackHandler(onBack = onBackPressed)
+    if (onBackPressed != null) {
+        BackHandler(onBack = onBackPressed)
+    }
 
     AndroidView(factory = {
         WebView(it).apply {
