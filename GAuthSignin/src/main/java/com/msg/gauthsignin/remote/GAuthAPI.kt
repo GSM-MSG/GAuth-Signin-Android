@@ -11,17 +11,17 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 interface GAuthAPI {
-    @POST("token")
+    @POST("oauth/token")
     fun getGAuthToken(
         @Body body: ServiceInfoDTO
     ): Call<TokenInfoDTO>
 
-    @PATCH("token")
+    @PATCH("oauth/token")
     fun tokenRefresh(
         @Header("refreshToken") refreshToken: String
     ): Call<TokenInfoDTO>
 
-    @POST("code")
+    @POST("oauth/code")
     fun getCode(
         @Body body: AccountInfoDTO
     ): Call<CodeInfoDTO>
